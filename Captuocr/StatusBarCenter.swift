@@ -47,8 +47,13 @@ class StatusBarCenter {
                 menuItem.target = self
                 menuItem.action = NSSelectorFromString($0.selector)
                 if let hotkey = $0.key, !hotkey.isEmpty {
-                    menuItem.keyEquivalentModifierMask = NSEvent.ModifierFlags(rawValue: UInt(Int(NSEvent.ModifierFlags.command.rawValue | NSEvent.ModifierFlags.shift.rawValue)))
-                    menuItem.keyEquivalent = hotkey
+                    menuItem.keyEquivalentModifierMask = NSEvent.ModifierFlags(rawValue: UInt(Int(NSEvent.ModifierFlags.command.rawValue)))
+                    if(hotkey == "c"){
+                        let f2Character: Character = Character(UnicodeScalar(NSF2FunctionKey)!)
+                        menuItem.keyEquivalent = String(f2Character)
+                    }else{
+                        menuItem.keyEquivalent = hotkey
+                    }
                 }
                 return menuItem
             }
@@ -201,8 +206,10 @@ class StatusBarCenter {
     }
 
     private func showPopover() {
-        if let button = statusItem.button {
-            popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
-        }
+       NSSound(named: NSSound.Name("Pop"))?.play()
+//
+//        if let button = statusItem.button {
+//            popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
+//        }
     }
 }

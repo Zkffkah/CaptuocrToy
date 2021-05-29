@@ -75,6 +75,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(_: Notification) {
         // Insert code here to tear down your application
     }
+
+    @IBAction func captureImageToText(_ sender: Any) {
+        container.resolve(StatusBarCenter.self)?.capturePic4Txt()
+    }
 }
 
 extension AppDelegate {

@@ -9,6 +9,7 @@
 import Bond
 import Foundation
 import ReactiveKit
+
 class RecognizeBoxViewModel {
     var recognizedText = Property<String>("")
     var image = Property<String>("")
@@ -20,6 +21,10 @@ extension RecognizeBoxViewController {
             self.performFontSize()
         }.dispose(in: imageArea.reactive.bag)
         viewmodel.recognizedText.bind(to: textArea.reactive.string).dispose(in: layout.bag)
+        viewmodel.recognizedText.observeNext { string in
+            NSPasteboard.general.clearContents()
+            NSPasteboard.general.setString(string, forType: .string)
+         }.dispose(in: layout.bag)
         viewmodel.image.map { (base64) -> NSImage? in
             if let data = Data(base64Encoded: base64, options: Data.Base64DecodingOptions(rawValue: 0)) {
                 return NSImage(data: data)
