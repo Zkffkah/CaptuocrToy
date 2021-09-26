@@ -11,6 +11,8 @@ import AppKit
 import Async
 import Carbon
 import Foundation
+import Magnet
+import Sauce
 
 class StatusBarCenter {
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
@@ -34,6 +36,12 @@ class StatusBarCenter {
         statusItem.menu = tarMenu
 
         buildMenu()
+        if let keyCombo = KeyCombo(key: .f2, cocoaModifiers: [.command]) {
+           let hotKey = HotKey(identifier: "CommandF2", keyCombo: keyCombo){ hotKey in
+               self.capturePic4Txt()
+           }
+           hotKey.register() // or HotKeyCenter.shared.register(with: hotKey)
+        }
     }
 
     private func buildMenu() {
@@ -48,12 +56,7 @@ class StatusBarCenter {
                 menuItem.action = NSSelectorFromString($0.selector)
                 if let hotkey = $0.key, !hotkey.isEmpty {
                     menuItem.keyEquivalentModifierMask = NSEvent.ModifierFlags(rawValue: UInt(Int(NSEvent.ModifierFlags.command.rawValue)))
-                    if(hotkey == "c"){
-                        let f2Character: Character = Character(UnicodeScalar(NSF2FunctionKey)!)
-                        menuItem.keyEquivalent = String(f2Character)
-                    }else{
-                        menuItem.keyEquivalent = hotkey
-                    }
+                    menuItem.keyEquivalent = hotkey
                 }
                 return menuItem
             }

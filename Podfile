@@ -11,4 +11,5 @@ target 'Captuocr' do
     pod 'Swinject', '~> 2.0.0'
     pod 'SwinjectPropertyLoader', '~> 1.0.0'
     pod 'SQLite.swift','~> 0.11.0'
+    pod 'Magnet'
 end
